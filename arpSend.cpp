@@ -179,14 +179,14 @@ void IpcharToUnint(const char* charIP, u_int32_t* intIP)
 	/* str문자열에서 format형식으로 데이터를 읽어서 가변인자들이 가리키는 메모리에 각각 저장
 		합니다. 그래서 dummystring에서는 1글자만 읽고 마칩니다. 널문자 삽입.
 		문자열의 끝을 알려줌. */
-	if (sscanf(char_ip, "%u.%u.%u.%u%1s",
+	if (sscanf(charIp, "%u.%u.%u.%u%1s",
 		&byte3, &byte2, &byte1, &byte0, nullString) == 4)
 	{
 		/* 받은 인자들을 IP 순서대로 정렬해줍니다.*/
 
 		if ((byte0 < 256) && (byte1 < 256) && (byte2 < 256) && (byte3 < 256))
 		{
-			*int_ip = byte0 + (byte1 << 8) + (byte2 << 16) + (byte3 << 24);
+			*intIp = byte0 + (byte1 << 8) + (byte2 << 16) + (byte3 << 24);
 		}
 	}
 }
@@ -211,10 +211,10 @@ void print_packet(ethernetHeader* ethernetHost, arpHeader* arpHost)
 
 	/* ARP header 출력 */
 	printf("\n[ARP HEADER]\n");
-	printf("Hardware type  : %04x\n", arpHost->arpHardwareAddressType);
-	printf("Protocol  : %04x\n", arpHost->arpProtocolAddressType);
-	printf("ar hln  : %02x\n", arpHost->arpHardwareAddressLength);
-	printf("ar pln  : %02x\n", arpHost->arpProtocolAddressLength);
+	printf("arpHardwareAddressType  : %04x\n", arpHost->arpHardwareAddressType);
+	printf("arpProtocolAddressType  : %04x\n", arpHost->arpProtocolAddressType);
+	printf("arpHardwareAddressLength  : %02x\n", arpHost->arpHardwareAddressLength);
+	printf("arpProtocolAddressLength  : %02x\n", arpHost->arpProtocolAddressLength);
 	printf("OP code  : %04x\n", arpHost->arpOperation);
 
 	printf("Source MAC : ");
