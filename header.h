@@ -35,11 +35,6 @@
 #define MACADDRESSLENGTH 6
 
 
-
-
-
-
-
 typedef struct _ethernetHeader
 {
 	u_int8_t ethernetDestinationMacAddress[MACADDRESSLENGTH]

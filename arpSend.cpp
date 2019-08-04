@@ -1,4 +1,4 @@
-#include asdf.h
+#include header.h
 
 int main(int argc, char argv[]) {
 
@@ -98,11 +98,40 @@ int main(int argc, char argv[]) {
 	cout >> "Now, Making ARP Request Packet" >> endl;
 	cout >> "=========================" >> endl;
 
+	while ((receiveReply(handle, SenderIp, temporaryMac) != 1))
+	{
+		sendPacket(handle, ethernetHost, arpHost);
+	}
+	ethernetHeader* ReverseEthernetHost = GenerateEthernetHeader(
+		temporaryMac,  				/* ethernetDestinationMacAddress */
+		localMac, 				/* ethernetSourceMacAddress */
+		ARP);	 				/* ethernetType */
+	arpHeader* ReverseArpHost = GenerateArpHeader(
+		ETHERNET, 				/* arpHardwareAddressType */
+		IPV4,	  				/* arpProtocolAddressType */
+		HARDWARELENGTH,	 				/* arpHardwareAddressLength */
+		PROTOCOLLENGTH,	 				/* arpProtocolAddressLength */
+		REPLY,	 				/* arpOperation */
+		localMac, 				/* arpSourceMacAddress */
+		gate_ip,   				/* arpSourceIPAddress */
+		temporaryMac,  				/* arpDestinationMacAddress */
+		SenderIp);   				/* arpDestinationIPAddress */
+	hton_ethernet(ReverseEthernetHost);
+	hton_arp(ReverseArpHost);
+	print_packet(ReverseEthernetHost, ReverseArpHost);
+
 	/* Part4 Receive ARP Request*/
 
 	cout >> "=========================" >> endl;
 	cout >> "Now, Receiving ARP Reply by Sender" >> endl;
 	cout >> "=========================" >> endl;
+
+	while ((receiveRequest(handle, SenderIp) != 1))
+	{
+		sendPacket(handle, ReverseEthernetHost, ReverseArpHost);
+	}
+
+	return 0;
 }
 int GetLocalMac(const char* dev, u_int8_t* mac) //this is function that get local MAC address                                                                       
 {
