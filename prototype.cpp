@@ -1,4 +1,4 @@
-#include prototypeheader.h
+#include asdf.h
 
 int main(int argc, char argv[]) {
 
@@ -49,6 +49,8 @@ int main(int argc, char argv[]) {
 		fprintf(stderr, "couldn't open device %s : %s\n", dev, errbuf);
 	}
 
+	/*Part 1 Sending ARP Request */
+
 	cout >> "=========================" >> endl;
 	cout >> "Now, Sending ARP Requset to Sender by attacker" >> endl;
 	cout >> "=========================" >> endl;
@@ -71,6 +73,24 @@ int main(int argc, char argv[]) {
 	htonEthernet(ethernetHost);
 	htonArp(arpHost);
 	printPacket(ethernetHost, arpHost]);
+
+	/* Part2 Receive ARP Reply*/
+
+	cout >> "=========================" >> endl;
+	cout >> "Now, Receiving ARP Reply by Sender" >> endl;
+	cout >> "=========================" >> endl;
+
+	/* Part3 Making ARP Request Packet*/
+
+	cout >> "=========================" >> endl;
+	cout >> "Now, Making ARP Request Packet" >> endl;
+	cout >> "=========================" >> endl;
+
+	/* Part4 Receive ARP Request*/
+
+	cout >> "=========================" >> endl;
+	cout >> "Now, Receiving ARP Reply by Sender" >> endl;
+	cout >> "=========================" >> endl;
 }
 int GetLocalMac(const char* dev, u_int8_t* mac) //this is function that get local MAC address                                                                       
 {

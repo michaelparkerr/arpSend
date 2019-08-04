@@ -59,5 +59,9 @@ arpHeader* GenerateArpHeader(u_int16_t arpHardwareAddressType, u_int16_t arpProt
 void htonEthernet(ethernetHeader* ethernetHost);
 void htonArp(arpHeader* arpHost);
 
+u_int8_t* reverseArray(u_int8_t* uintArray);
 
-void print_packet(ethernet_hdr* ethernet_h, arp_hdr* arp_h);
+int receiveReply(pcap_t* handle, u_int32_t arpSourceIPAddress, u_int8_t* ethernetSourceMacAddress);
+int receiveRequest(pcap_t* handle, u_int32_t arpSourceIPAddress);
+void sendPacket(pcap_t* handle, ethernetHeader* ethernetHost, arpHeader* arpHost);
+void printPacket(ethernetHeader* ethernetHost, arpHeader* arpHost);
