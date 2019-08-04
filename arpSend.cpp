@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
 	/*인자를 4개 받지 않으면 에러를 띄워준다.*/
 
 	if (argc != 4) {
-		cout >> "Wrong format !!!\n=================\n ./sendArp dev senderip targetip\n================="
+		cout << "Wrong format !!!\n=================\n ./sendArp dev senderip targetip\n=================" << endl;
 	}
 
 	/*받은 인자 순서에 따라 변수에 할당해준다.*/
@@ -53,9 +53,9 @@ int main(int argc, char *argv[]) {
 
 	/*Part 1 Sending ARP Request */
 
-	cout >> "=========================" >> endl;
-	cout >> "Now, Sending ARP Requset to Sender by attacker" >> endl;
-	cout >> "=========================" >> endl;
+	cout << "=========================" << endl;
+	cout << "Now, Sending ARP Requset to Sender by attacker" << endl;
+	cout << "=========================" << endl;
 
 	ethernetHeader *ethernetHeaderHost = generateEthernetHeader(
 		nullMac,				/* ethernetDestinationMacAddress */
@@ -80,9 +80,9 @@ int main(int argc, char *argv[]) {
 
 	/* Part2 Receive ARP Reply*/
 
-	cout >> "=========================" >> endl;
-	cout >> "Now, Receiving ARP Reply by Sender" >> endl;
-	cout >> "=========================" >> endl;
+	cout << "=========================" << endl;
+	cout << "Now, Receiving ARP Reply by Sender" << endl;
+	cout << "=========================" << endl;
 
 	u_int8_t temporaryMac[MACADDRESSLENGTH] = {
 		0,
@@ -96,9 +96,9 @@ int main(int argc, char *argv[]) {
 
 	/* Part3 Making ARP Request Packet*/
 
-	cout >> "=========================" >> endl;
-	cout >> "Now, Making ARP Request Packet" >> endl;
-	cout >> "=========================" >> endl;
+	cout << "=========================" << endl;
+	cout << "Now, Making ARP Request Packet" << endl;
+	cout << "=========================" << endl;
 
 	while ((receiveReply(handle, senderIp, temporaryMac) != 1))
 	{
@@ -124,9 +124,9 @@ int main(int argc, char *argv[]) {
 
 	/* Part4 Receive ARP Request*/
 
-	cout >> "=========================" >> endl;
-	cout >> "Now, Receiving ARP Reply by Sender" >> endl;
-	cout >> "=========================" >> endl;
+	cout << "=========================" << endl;
+	cout << "Now, Receiving ARP Reply by Sender" << endl;
+	cout << "=========================" << endl;
 
 	while ((receiveRequest(handle, senderIp) != 1))
 	{
