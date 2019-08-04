@@ -39,8 +39,8 @@ int main(int argc, char *argv[]) {
 
 	/* 미리 만들어 둔 IpCharToUnint 함수를 활용하여 자료형을 바꿔서 값을 저장해준다.*/
 
-	IpCharToUnint(senderIpChar, senderIp);
-	IpCharToUnint(targetIpChar, targetIp);
+	IpCharToUnint(senderIpChar, &senderIp);
+	IpCharToUnint(targetIpChar, &targetIp);
 
 	/* pcap test때 사용하던 handle open부분을 인용한다. 실시간으로 패킷을 캡쳐한다.*/
 
@@ -57,12 +57,12 @@ int main(int argc, char *argv[]) {
 	cout << "Now, Sending ARP Requset to Sender by attacker" << endl;
 	cout << "=========================" << endl;
 
-	ethernetHeader *ethernetHeaderHost = generateEthernetHeader(
+	ethernetHeader *ethernetHost = generateEthernetHeader(
 		nullMac,				/* ethernetDestinationMacAddress */
 		localMac, 				/* ethernetSourceMacAddress */
 		ARP);	  				/* ethernetType */
 
-	arpHeader* arpHeaderHost = generateArpHeader(
+	arpHeader* arpHost = generateArpHeader(
 		ETHERNET, 		 		/* arpHardwareAddressType */
 		IPV4,	 		 		/*arpProtocolAddressType */
 		HARDWARELENGTH,	 				/* arpHardwareAddressLength */
