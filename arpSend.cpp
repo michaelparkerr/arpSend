@@ -154,6 +154,77 @@ int GetLocalMac(const char* dev, u_int8_t* mac) //this is function that get loca
 	return rv;
 }
 
+int receiveReply(pcap_t* handle, u_int32_t arpSourceIPAddress, u_int8_t* ethernetSourceMacAddress)
+{
+	const u_char* packet;
+	int rv = -1;
+
+	struct pcap_pkthdr* header;
+	int res = pcap_next_ex(handle, &header, &packet);
+	ethernetHeader* ethernetHost = (ethernetHeader*)malloc(sizeof(ethernetHeader));
+	ethernetHost = (ethernetHeader*)packet;
+
+	if (ntohs(ethernetHost->ethernetType) == ARP)
+	{		
+		arpHeader* arpHost = (arpHeader*)malloc(sizeof(arpHeader));
+		arpHost = (arpHeader*)(packet + sizeof(ethernetHeader));
+		if (ntohs(arpHost->arpOperation) == REPLY)
+		{
+			/* compare ip address */
+			if (ntohl(arpHost->arpSourceIPAddress) == arpSourceIPAddress)
+			{
+				for (int i = 0; i < MACLEN; i++)
+				{
+					ethernetSourceMacAddress[i] = *(reverseArray(arpHost->arpSourceMacAddress) + i);
+				}
+				//print_packet((ethernet_hdr *)packet, (arp_hdr *)(packet + 14));
+				return 1;
+			}
+		}
+	}
+}
+
+int receiveRequest(pcap_t* handle, u_int32_t arpSourceIPAddress)
+{
+	const u_char* packet;
+	int rv = -1;
+
+	struct pcap_pkthdr* header;
+
+	int res = pcap_next_ex(handle, &header, &packet);
+	ethernetHeader* ethernetHost = (ethernetHeader*)malloc(sizeof(ethernetHeader));
+	ethernetHost = (ethernetHeader*)packet;
+
+	if (ntohs(ethernetHost->ethernetType) == ARP)
+	{
+		arpHeader* arpHost = (arpHeader*)malloc(sizeof(arpHeader));
+		arpHost = (arpHeader*)(packet + sizeof(ethernetHeader));
+		if (ntohs(arpHeader->arpOperation) == REQUEST)
+		{
+			/* compare ip address */
+			if (ntohl(arpHost->ar_src_ip) == arpSourceIPAddress)
+			{
+				return 1;
+			}
+		}
+	}
+}
+
+void sendPacket(pcap_t* handle, ethernetHeader* ethernetHost, arpHeader* arpHost)
+{
+
+	u_char* packet;
+	int packet_size = sizeof(ethernetHeader) + sizeof(arpHeader);
+
+	packet = (u_char*)malloc(sizeof(u_char) * packet_size);
+	memcpy(packet, ethernetHost, sizeof(ethernetHeader));
+	memcpy(packet + sizeof(ethernetHeader), arp_h, sizeof(arpHeader));
+	if (pcap_sendpacket(handle, packet, packet_size) != 0)
+	{
+		fprintf(stderr, "\nError sending the packet: \n", pcap_geterr(handle));
+	}
+}
+
 u_int8_t* reverseArray(u_int8_t* uintArray)
 {
 	u_int8_t* temp = (u_int8_t*)malloc(sizeof(u_int8_t) * (MACADDRESSLENGTH));
@@ -166,7 +237,7 @@ u_int8_t* reverseArray(u_int8_t* uintArray)
 	return temp;
 }
 
-void IpcharToUnint(const char *charIp, u_int32_t *intIp)
+void IpCharToUnint(const char *charIp, u_int32_t *intIp)
 {/*IP값을 4바이트씩 받을 byte 정의*/
 	u_int32_t byte3; 
 	u_int32_t byte2;
