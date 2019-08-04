@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
 	/*인자를 4개 받지 않으면 에러를 띄워준다.*/
 
 	if (argc != 4) {
-		cout << "Wrong format !!!\n=================\n ./sendArp dev senderip targetip\n=================" << endl;
+		printf("Wrong format !!!\n=================\n ./sendArp dev senderip targetip\n=================\n");
 	}
 
 	/*받은 인자 순서에 따라 변수에 할당해준다.*/
@@ -53,10 +53,9 @@ int main(int argc, char *argv[]) {
 
 	/*Part 1 Sending ARP Request */
 
-	cout << "=========================" << endl;
-	cout << "Now, Sending ARP Requset to Sender by attacker" << endl;
-	cout << "=========================" << endl;
-
+	printf("=========================\n");
+	printf("Now, Sending ARP Requset to Sender by attacker\n");
+	printf("=========================\n");
 	ethernetHeader *ethernetHost = GenerateEthernetHeader(
 		nullMac,				/* ethernetDestinationMacAddress */
 		localMac, 				/* ethernetSourceMacAddress */
@@ -80,9 +79,9 @@ int main(int argc, char *argv[]) {
 
 	/* Part2 Receive ARP Reply*/
 
-	cout << "=========================" << endl;
-	cout << "Now, Receiving ARP Reply by Sender" << endl;
-	cout << "=========================" << endl;
+	printf("=========================\n");
+	printf("Now, Receiving ARP Reply by Sender\n");
+	printf("=========================\n");
 
 	u_int8_t temporaryMac[MACADDRESSLENGTH] = {
 		0,
@@ -96,10 +95,9 @@ int main(int argc, char *argv[]) {
 
 	/* Part3 Making ARP Request Packet*/
 
-	cout << "=========================" << endl;
-	cout << "Now, Making ARP Request Packet" << endl;
-	cout << "=========================" << endl;
-
+	printf("=========================\n");
+	printf("Now, Making ARP Request Packet\n");
+	printf("=========================\n");
 	while ((receiveReply(handle, senderIp, temporaryMac) != 1))
 	{
 		sendPacket(handle, ethernetHost, arpHost);
@@ -124,9 +122,9 @@ int main(int argc, char *argv[]) {
 
 	/* Part4 Receive ARP Request*/
 
-	cout << "=========================" << endl;
-	cout << "Now, Receiving ARP Reply by Sender" << endl;
-	cout << "=========================" << endl;
+	printf("=========================\n");
+	printf("Now, Receiving ARP Reply by Sender\n");
+	printf("=========================\n");
 
 	while ((receiveRequest(handle, senderIp) != 1))
 	{
@@ -198,7 +196,7 @@ void printPacket(ethernetHeader* ethernetHost, arpHeader* arpHost)
 
 	/* 이더넷 헤더 출력 */
 	printf("\n\n[ETHERNET HEADER]\n");
-	printf("Destination MAC : "); /
+	printf("Destination MAC : "); 
 	for (int i = 0; i < MACADDRESSLENGTH; i++)
 	{
 		printf("%02x ", *(ethernetHost->ethernetDestinationMacAddress + i));
