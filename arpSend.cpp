@@ -173,7 +173,7 @@ int receiveReply(pcap_t* handle, u_int32_t arpSourceIPAddress, u_int8_t* etherne
 			/* compare ip address */
 			if (ntohl(arpHost->arpSourceIPAddress) == arpSourceIPAddress)
 			{
-				for (int i = 0; i < MACLEN; i++)
+				for (int i = 0; i < MACADDRESSLENGTH; i++)
 				{
 					ethernetSourceMacAddress[i] = *(reverseArray(arpHost->arpSourceMacAddress) + i);
 				}
@@ -218,7 +218,7 @@ void sendPacket(pcap_t* handle, ethernetHeader* ethernetHost, arpHeader* arpHost
 
 	packet = (u_char*)malloc(sizeof(u_char) * packet_size);
 	memcpy(packet, ethernetHost, sizeof(ethernetHeader));
-	memcpy(packet + sizeof(ethernetHeader), arp_h, sizeof(arpHeader));
+	memcpy(packet + sizeof(ethernetHeader), arpHost, sizeof(arpHeader));
 	if (pcap_sendpacket(handle, packet, packet_size) != 0)
 	{
 		fprintf(stderr, "\nError sending the packet: \n", pcap_geterr(handle));
