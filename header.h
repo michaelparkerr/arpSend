@@ -26,6 +26,8 @@
 #include <netdb.h>
 #include <pcap.h>
 
+using namespace std;
+
 #define PROTOCOLLENGTH				0x04
 #define HARDWARELENGTH				0x06
 #define IPV4				0x0800
@@ -38,7 +40,7 @@
 
 typedef struct _ethernetHeader
 {
-	u_int8_t ethernetDestinationMacAddress[MACADDRESSLENGTH]
+	u_int8_t ethernetDestinationMacAddress[MACADDRESSLENGTH];
 	u_int8_t ethernetSourceMacAddress[MACADDRESSLENGTH];
 	u_int16_t ethernetType;       			/* ARP : 0x0806, RARP : 0x0835 */
 } ethernetHeader;
