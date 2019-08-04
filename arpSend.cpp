@@ -202,7 +202,7 @@ int receiveRequest(pcap_t* handle, u_int32_t arpSourceIPAddress)
 		if (ntohs(arpHost->arpOperation) == REQUEST)
 		{
 			/* compare ip address */
-			if (ntohl(arpHost->ar_src_ip) == arpSourceIPAddress)
+			if (ntohl(arpHost->arpSourceIPAddress) == arpSourceIPAddress)
 			{
 				return 1;
 			}
