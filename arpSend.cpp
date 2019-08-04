@@ -1,4 +1,4 @@
-#include header.h
+#include "header.h"
 
 int main(int argc, char argv[]) {
 
@@ -113,7 +113,7 @@ int main(int argc, char argv[]) {
 		PROTOCOLLENGTH,	 				/* arpProtocolAddressLength */
 		REPLY,	 				/* arpOperation */
 		localMac, 				/* arpSourceMacAddress */
-		gate_ip,   				/* arpSourceIPAddress */
+		targetIp,   				/* arpSourceIPAddress */
 		temporaryMac,  				/* arpDestinationMacAddress */
 		SenderIp);   				/* arpDestinationIPAddress */
 	htonEthernet(ReverseEthernetHost);
