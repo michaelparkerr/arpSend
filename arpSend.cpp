@@ -1,4 +1,6 @@
 #include "header.h"
+#include <iostream>
+using namespace std;
 
 int main(int argc, char *argv[]) {
 
@@ -115,7 +117,7 @@ int main(int argc, char *argv[]) {
 		localMac, 				/* arpSourceMacAddress */
 		targetIp,   				/* arpSourceIPAddress */
 		temporaryMac,  				/* arpDestinationMacAddress */
-		SenderIp);   				/* arpDestinationIPAddress */
+		senderIp);   				/* arpDestinationIPAddress */
 	htonEthernet(ReverseEthernetHost);
 	htonArp(ReverseArpHost);
 	printPacket(ReverseEthernetHost, ReverseArpHost);
