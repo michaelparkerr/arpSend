@@ -199,7 +199,7 @@ int receiveRequest(pcap_t* handle, u_int32_t arpSourceIPAddress)
 	{
 		arpHeader* arpHost = (arpHeader*)malloc(sizeof(arpHeader));
 		arpHost = (arpHeader*)(packet + sizeof(ethernetHeader));
-		if (ntohs(arpHeader->arpOperation) == REQUEST)
+		if (ntohs(arpHost->arpOperation) == REQUEST)
 		{
 			/* compare ip address */
 			if (ntohl(arpHost->ar_src_ip) == arpSourceIPAddress)
