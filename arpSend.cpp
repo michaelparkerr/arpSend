@@ -166,7 +166,7 @@ u_int8_t* reverseArray(u_int8_t* uintArray)
 	return temp;
 }
 
-void IpcharToUnint(const char *charIP, u_int32_t *intIP)
+void IpcharToUnint(const char *charIp, u_int32_t *intIp)
 {/*IP값을 4바이트씩 받을 byte 정의*/
 	u_int32_t byte3; 
 	u_int32_t byte2;
