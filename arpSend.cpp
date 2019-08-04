@@ -294,14 +294,14 @@ void printPacket(ethernetHeader* ethernetHost, arpHeader* arpHost)
 		printf("%02x ", *(arpHost->arpSourceMacAddress + i));
 	}
 	printf("\nSource IP : ");
-	printf("%0x\n", arpHost->arpSourceIPAddress);
+	printf("%d.%d.%d.%d\n", arpHost->arpSourceIPAddress);
 	printf("Destination MAC : ");
 	for (int i = 0; i < MACADDRESSLENGTH; i++)
 	{
 		printf("%02x ", *(arpHost->arpDestinationMacAddress + i));
 	}
 	printf("\nDestination IP : ");
-	printf("%0x\n", arpHost->arpDestinationIPAddress);
+	printf("%d.%d.%d.%d\n", arpHost->arpDestinationIPAddress);
 }
 
 
