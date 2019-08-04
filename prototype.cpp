@@ -232,6 +232,26 @@ void htonEthernet(ethernetHeader* ethernetHost)
 	ethernetHost->ethernetType = htons(ethernetHost->ethernetType);
 }
 
+arpHeader* GenerateArpHeader(u_int16_t ar_hrd, u_int16_t ar_pro, u_int8_t ar_hln, u_int8_t ar_pln, u_int16_t ar_op, u_int8_t* ar_src_mac, u_int32_t ar_src_ip, u_int8_t* ar_dst_mac, u_int32_t ar_dst_ip)
+{
+	arpHeader* arpHost = (arpHeader*)malloc(sizeof(arpHeader));
+
+	arpHost->arpHardwareAddressType = arpHardwareAddressType;
+	arpHost->arpProtocolAddressType = arpProtocolAddressType;
+	arpHost->arpHardwareAddressLength = arpHardwareAddressLength;
+	arpHost->arpProtocolAddressLength = arpProtocolAddressLength;
+	arpHost->arpOperation = arpOperation;
+	for (int i = 0; i < MACADDRESSLENGTH; i++)
+	{
+		arpHost->arpSourceMacAddress[i] = *(ar_src_mac + i);
+		arpHost->arpDestinationMacAddress[i] = *(ar_dst_mac + i);
+	}
+	arpHost->arpSourceIPAddress = arpSourceIPAddress;
+	arpHost->arpDestinationIPAddress = arpDestinationIPAddress;
+	return arpHost;
+}
+
+
 ethernetHeader* GenerateEthernetHeader(u_int8_t* ethernetDestinationMacAddress, u_int8_t* ethernetSourceMacAddress, u_int16_t ethernetType)
 {
 	ethernetHeader* ethernetHost = (ethernetHeader*)(malloc(sizeof(ethernetHost)));
