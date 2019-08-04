@@ -144,6 +144,65 @@ void IpcharToUnint(const char* charIP, u_int32_t* intIP)
 	}
 }
 
+void print_packet(ethernetHeader* ethernetHost, arpHeader* arpHost)
+{
+
+	/* 이더넷 헤더 출력 */
+	printf("\n\n[ETHERNET HEADER]\n");
+	printf("Destination MAC : "); /
+	for (int i = 0; i < MACADDRESSLENGTH; i++)
+	{
+		printf("%02x ", *(ethernetHost->ethernetDestinationMacAddress + i));
+	}
+	printf("\nSource MAC : ");
+	for (int i = 0; i < MACADDRESSLENGTH; i++)
+	{
+		printf("%02x ", *(ethernetHost->ether_shost + i));
+	}
+	printf("\nEther Type : ");
+	printf("%02x", ethernetHost->ether_type);
+
+	/* ARP header 출력 */
+	printf("\n[ARP HEADER]\n");
+	printf("Hardware type  : %04x\n", arpHost->arpHardwareAddressType);
+	printf("Protocol  : %04x\n", arpHost->arpProtocolAddressType);
+	printf("ar hln  : %02x\n", arpHost->arpHardwareAddressLength);
+	printf("ar pln  : %02x\n", arpHost->arpProtocolAddressLength);
+	printf("OP code  : %04x\n", arpHost->arpOperation);
+
+	printf("Source MAC : ");
+	for (int i = 0; i < MACADDRESSLENGTH; i++)
+	{
+		printf("%02x ", *(arp_h->arpSourceMacAddress + i));
+	}
+	printf("\nSource IP : ");
+	printf("%0x\n", arpHost->arpSourceIPAddress);
+	printf("Destination MAC : ");
+	for (int i = 0; i < MACADDRESSLENGTH; i++)
+	{
+		printf("%02x ", *(arpHost->arpDestinationMacAddress + i));
+	}
+	printf("\nDestination IP : ");
+	printf("%0x", arpHost->arpDestinationIPAddress);
+}
+
+
+void htonArp(arpHeader* arpHost)
+{
+	arpHost->arpHardwareAddressType = htons(arpHost->arpHardwareAddressType);
+	arpHost->arpProtocolAddressType = htons(arpHost->arpProtocolAddressType);
+	arpHost->arpHardwareAddressLength = arp_h->arpHardwareAddressLength;
+	arpHost->arpProtocolAddressLength = arpHost->arpProtocolAddressLength;
+	arpHost->arpOperation = htons(arpHost->arpOperation);
+	for (int i = 0; i < MACADDRESSLENGTH; i++)
+	{
+		arpHost->arpSourceMacAddress[i] = *(reverseArray(arpHost->arpSourceMacAddress) + i);
+		arpHost->arpDestinationMacAddress[i] = *(reverseArray(arpHost->arpDestinationMacAddress) + i);
+	}
+	arpHost->arpSourceIPAddress = htonl(arpHost->arpSourceIPAddress);
+	arpHost->arpDestinationIPAddress = htonl(arpHost->arpDestinationIPAddress);
+}
+
 void htonEthernet(ethernetHeader* ethernetHost)
 {
 
