@@ -53,3 +53,11 @@ typedef struct _arpHeader
 int GetLocalMac(const char* dev, unsigned char* mac);
 u_int32_t GetLocalIp(const char* dev);
 void IpCharToUnint(const char* charIp, u_int32_t* intIp);
+
+ethernetHeader* GenerateEthernetHeader(u_int8_t* ethernetDestinationMacAddress, u_int8_t* ethernetSourceMacAddress, u_int16_t ethernetType);
+arpHeader* GenerateArpHeader(u_int16_t arpHardwareAddressType, u_int16_t arpProtocolAddressType, u_int8_t arpHardwareAddressLength, u_int8_t arpProtocolAddressLength, u_int16_t arpOperation, u_int8_t* arpSourceMacAddress, u_int32_t arpSourceIPAddress, u_int8_t* arpDestinationMacAddress, u_int32_t arpDestinationIPAddress);
+void htonEthernet(ethernetHeader* ethernetHost);
+void htonArp(arpHeader* arpHost);
+
+
+void print_packet(ethernet_hdr* ethernet_h, arp_hdr* arp_h);

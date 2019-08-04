@@ -118,7 +118,7 @@ void IpcharToUnint(const char* charIP, u_int32_t* intIP)
 	}
 }
 
-ethernetHeader* generateEthernetHeader(u_int8_t* ethernetDestinationMacAddress, u_int8_t* ethernetSourceMacAddress, u_int16_t ethernetType)
+ethernetHeader* GenerateEthernetHeader(u_int8_t* ethernetDestinationMacAddress, u_int8_t* ethernetSourceMacAddress, u_int16_t ethernetType)
 {
 	ethernetHeader* ethernetHost = (ethernetHeader*)(malloc(sizeof(ethernetHost)));
 	for (int i = 0; i < MACADDRESSLENGTH; i++)
