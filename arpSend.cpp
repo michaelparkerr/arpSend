@@ -98,7 +98,7 @@ int main(int argc, char *argv[]) {
 	cout >> "Now, Making ARP Request Packet" >> endl;
 	cout >> "=========================" >> endl;
 
-	while ((receiveReply(handle, SenderIp, temporaryMac) != 1))
+	while ((receiveReply(handle, senderIp, temporaryMac) != 1))
 	{
 		sendPacket(handle, ethernetHost, arpHost);
 	}
@@ -126,7 +126,7 @@ int main(int argc, char *argv[]) {
 	cout >> "Now, Receiving ARP Reply by Sender" >> endl;
 	cout >> "=========================" >> endl;
 
-	while ((receiveRequest(handle, SenderIp) != 1))
+	while ((receiveRequest(handle, senderIp) != 1))
 	{
 		sendPacket(handle, ReverseEthernetHost, ReverseArpHost);
 	}
@@ -220,7 +220,7 @@ void print_packet(ethernetHeader* ethernetHost, arpHeader* arpHost)
 	printf("Source MAC : ");
 	for (int i = 0; i < MACADDRESSLENGTH; i++)
 	{
-		printf("%02x ", *(arp_h->arpSourceMacAddress + i));
+		printf("%02x ", *(arpHost->arpSourceMacAddress + i));
 	}
 	printf("\nSource IP : ");
 	printf("%0x\n", arpHost->arpSourceIPAddress);
@@ -238,7 +238,7 @@ void htonArp(arpHeader* arpHost)
 {
 	arpHost->arpHardwareAddressType = htons(arpHost->arpHardwareAddressType);
 	arpHost->arpProtocolAddressType = htons(arpHost->arpProtocolAddressType);
-	arpHost->arpHardwareAddressLength = arp_h->arpHardwareAddressLength;
+	arpHost->arpHardwareAddressLength = arpHost->arpHardwareAddressLength;
 	arpHost->arpProtocolAddressLength = arpHost->arpProtocolAddressLength;
 	arpHost->arpOperation = htons(arpHost->arpOperation);
 	for (int i = 0; i < MACADDRESSLENGTH; i++)
