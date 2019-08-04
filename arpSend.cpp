@@ -301,7 +301,7 @@ void printPacket(ethernetHeader* ethernetHost, arpHeader* arpHost)
 		printf("%02x ", *(arpHost->arpDestinationMacAddress + i));
 	}
 	printf("\nDestination IP : ");
-	printf("%0x", arpHost->arpDestinationIPAddress);
+	printf("%0x\n", arpHost->arpDestinationIPAddress);
 }
 
 
