@@ -193,7 +193,7 @@ void IpcharToUnint(const char *charIP, u_int32_t *intIP)
 	}
 }
 
-void print_packet(ethernetHeader* ethernetHost, arpHeader* arpHost)
+void printPacket(ethernetHeader* ethernetHost, arpHeader* arpHost)
 {
 
 	/* 이더넷 헤더 출력 */
