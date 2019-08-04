@@ -25,8 +25,20 @@
 #include <netdb.h>
 #include <pcap.h>
 
+#define PROTOCOLLENGTH				0x04
+#define HARDWARELENGTH				0x06
+#define IPV4				0x0800
+#define ETHERNET 			0x01
+#define REPLY               0x02
+#define REQUEST             0x01
 #define ARP 0x0806
 #define MACADDRESSLENGTH 6
+
+
+
+
+
+
 
 typedef struct _ethernetHeader
 {

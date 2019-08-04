@@ -59,6 +59,7 @@ int main(int argc, char argv[]) {
 		nullMac,				/* ethernetDestinationMacAddress */
 		localMac, 				/* ethernetSourceMacAddress */
 		ARP);	  				/* ethernetType */
+
 	arpHeader* arpHeaderHost = generateArpHeader(
 		ETHERNET, 		 		/* arpHardwareAddressType */
 		IPV4,	 		 		/*arpProtocolAddressType */
@@ -70,9 +71,10 @@ int main(int argc, char argv[]) {
 		//		arpSourceIPAddress,			/* arpSourceIPAddress : doenst' matter what it is*/
 		nullMac,				/* arpDestinationMacAddress */
 		senderIp);  				/* arpDestinationIPAddress */
+
 	htonEthernet(ethernetHost);
 	htonArp(arpHost);
-	printPacket(ethernetHost, arpHost]);
+	printPacket(ethernetHost, arpHost);
 
 	/* Part2 Receive ARP Reply*/
 
