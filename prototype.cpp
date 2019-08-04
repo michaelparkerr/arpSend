@@ -78,9 +78,13 @@ int main(int argc, char argv[]) {
 
 	/* Part2 Receive ARP Reply*/
 
-	cout >> "=========================" >> endl;
-	cout >> "Now, Receiving ARP Reply by Sender" >> endl;
-	cout >> "=========================" >> endl;
+
+
+	/* set ethernet_h->ether_shost to received mac address */
+	while ((receiveReply(handle, senderIp, temporaryMac) != 1))
+	{
+		sendPacket(handle, ethernetHost, arpHost);
+	}
 
 	/* Part3 Making ARP Request Packet*/
 
@@ -138,6 +142,17 @@ void IpcharToUnint(const char* charIP, u_int32_t* intIP)
 			*int_ip = byte0 + (byte1 << 8) + (byte2 << 16) + (byte3 << 24);
 		}
 	}
+}
+
+void htonEthernet(ethernetHeader* ethernetHost)
+{
+
+	for (int i = 0; i < MACADDRESSLENGTH; i++)
+	{
+		ethernetHost->ethernetDestinationMacAddress[i] = *(reverseArray(ethernetHost->ethernetDestinationMacAddress) + i);
+		ethernetHost->ethernetSourceMacAddress[i] = *(reverseArray(ethernetHost->ethernetSourceMacAddress) + i);
+	}
+	ethernetHost->ethernetType = htons(ethernetHost->ethernetType);
 }
 
 ethernetHeader* GenerateEthernetHeader(u_int8_t* ethernetDestinationMacAddress, u_int8_t* ethernetSourceMacAddress, u_int16_t ethernetType)
