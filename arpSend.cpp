@@ -116,9 +116,9 @@ int main(int argc, char argv[]) {
 		gate_ip,   				/* arpSourceIPAddress */
 		temporaryMac,  				/* arpDestinationMacAddress */
 		SenderIp);   				/* arpDestinationIPAddress */
-	hton_ethernet(ReverseEthernetHost);
-	hton_arp(ReverseArpHost);
-	print_packet(ReverseEthernetHost, ReverseArpHost);
+	htonEthernet(ReverseEthernetHost);
+	htonArp(ReverseArpHost);
+	printPacket(ReverseEthernetHost, ReverseArpHost);
 
 	/* Part4 Receive ARP Request*/
 
@@ -204,10 +204,10 @@ void print_packet(ethernetHeader* ethernetHost, arpHeader* arpHost)
 	printf("\nSource MAC : ");
 	for (int i = 0; i < MACADDRESSLENGTH; i++)
 	{
-		printf("%02x ", *(ethernetHost->ether_shost + i));
+		printf("%02x ", *(ethernetHost->ethernetSourceMacAddress + i));
 	}
 	printf("\nEther Type : ");
-	printf("%02x", ethernetHost->ether_type);
+	printf("%02x", ethernetHost->ethernetType);
 
 	/* ARP header Ãâ·Â */
 	printf("\n[ARP HEADER]\n");
@@ -261,7 +261,7 @@ void htonEthernet(ethernetHeader* ethernetHost)
 	ethernetHost->ethernetType = htons(ethernetHost->ethernetType);
 }
 
-arpHeader* GenerateArpHeader(u_int16_t ar_hrd, u_int16_t ar_pro, u_int8_t ar_hln, u_int8_t ar_pln, u_int16_t ar_op, u_int8_t* ar_src_mac, u_int32_t ar_src_ip, u_int8_t* ar_dst_mac, u_int32_t ar_dst_ip)
+arpHeader* GenerateArpHeader(u_int16_t arpHardwareAddressType, u_int16_t arpProtocolAddressType, u_int8_t arpHardwareAddressLength, u_int8_t arpProtocolAddressLength, u_int16_t arpOperation, u_int8_t* arpSourceMacAddress, u_int32_t arpSourceIPAddress, u_int8_t* arpDestinationMacAddress, u_int32_t arpDestinationIPAddress)
 {
 	arpHeader* arpHost = (arpHeader*)malloc(sizeof(arpHeader));
 
@@ -272,8 +272,8 @@ arpHeader* GenerateArpHeader(u_int16_t ar_hrd, u_int16_t ar_pro, u_int8_t ar_hln
 	arpHost->arpOperation = arpOperation;
 	for (int i = 0; i < MACADDRESSLENGTH; i++)
 	{
-		arpHost->arpSourceMacAddress[i] = *(ar_src_mac + i);
-		arpHost->arpDestinationMacAddress[i] = *(ar_dst_mac + i);
+		arpHost->arpSourceMacAddress[i] = *(arpSourceMacAddress + i);
+		arpHost->arpDestinationMacAddress[i] = *(arpDestinationMacAddress + i);
 	}
 	arpHost->arpSourceIPAddress = arpSourceIPAddress;
 	arpHost->arpDestinationIPAddress = arpDestinationIPAddress;
