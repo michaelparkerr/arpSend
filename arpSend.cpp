@@ -57,12 +57,12 @@ int main(int argc, char *argv[]) {
 	cout << "Now, Sending ARP Requset to Sender by attacker" << endl;
 	cout << "=========================" << endl;
 
-	ethernetHeader *ethernetHost = generateEthernetHeader(
+	ethernetHeader *ethernetHost = GenerateEthernetHeader(
 		nullMac,				/* ethernetDestinationMacAddress */
 		localMac, 				/* ethernetSourceMacAddress */
 		ARP);	  				/* ethernetType */
 
-	arpHeader* arpHost = generateArpHeader(
+	arpHeader* arpHost = GenerateArpHeader(
 		ETHERNET, 		 		/* arpHardwareAddressType */
 		IPV4,	 		 		/*arpProtocolAddressType */
 		HARDWARELENGTH,	 				/* arpHardwareAddressLength */
