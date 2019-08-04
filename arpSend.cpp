@@ -1,6 +1,6 @@
 #include "header.h"
 
-int main(int argc, char argv[]) {
+int main(int argc, char *argv[]) {
 
 	/*인자를 4개 받지 않으면 에러를 띄워준다.*/
 

@@ -2,6 +2,7 @@
 #include <stdlib.h> /* Standard Library */
 #include <string.h>
 #include <unistd.h>
+#include <iostream>
 
 #include <ifaddrs.h>
 #include <errno.h> /* Error number and related */
