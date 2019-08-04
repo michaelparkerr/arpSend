@@ -78,7 +78,13 @@ int main(int argc, char argv[]) {
 
 	/* Part2 Receive ARP Reply*/
 
+	cout >> "=========================" >> endl;
+	cout >> "Now, Receiving ARP Reply by Sender" >> endl;
+	cout >> "=========================" >> endl;
 
+	u_int8_t temporaryMac[MACADDRESSLENGTH] = {
+		0,
+	};
 
 	/* set ethernet_h->ether_shost to received mac address */
 	while ((receiveReply(handle, senderIp, temporaryMac) != 1))
@@ -117,6 +123,18 @@ int GetLocalMac(const char* dev, u_int8_t* mac) //this is function that get loca
 	}
 
 	return rv;
+}
+
+u_int8_t* reverseArray(u_int8_t* uintArray)
+{
+	u_int8_t* temp = (u_int8_t*)malloc(sizeof(u_int8_t) * (MACADDRESSLENGTH));
+	u_int8_t* p = uintArray + (MACADDRESSLENGTH - 1);
+
+	for (int i = 0; i < MACADDRESSLENGTH; i++)
+	{
+		*(temp + i) = *(p - i);
+	}
+	return temp;
 }
 
 void IpcharToUnint(const char* charIP, u_int32_t* intIP)
