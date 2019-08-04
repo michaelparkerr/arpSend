@@ -1,11 +1,11 @@
-all : sendArp
+all : arpSend
 
-sendArp: main.o
-	g++ -g -o sendArp main.o -lpcap
+arpSend: arpSend.o
+	g++ -g -o arpSend arpSend.o -lpcap
 
-main.o:
-	g++ -g -c -o main.o main.cpp 
+arpSend.o:
+	g++ -g -c -o arpSend.o arpSend.cpp 
 
 clear:
-	rm -f sendArp
+	rm -f arpSend
 	rm -f *.o
