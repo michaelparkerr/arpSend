@@ -90,7 +90,7 @@ void ArpSpoof(char* if_name, char* sender_ip_string, char* target_ip_string, u_c
 
 }
 
-void Send_ArpRequest(const char* if_name, const char* sender_ip_string, const char* target_ip_string) {
+void Send_ArpRequest(char* if_name, char* sender_ip_string, char* target_ip_string) {
 
 	struct ether_header header;
 	header.ether_type = htons(ETH_P_ARP);
@@ -151,7 +151,7 @@ void Send_ArpRequest(const char* if_name, const char* sender_ip_string, const ch
 		close(fd);
 		exit(1);
 	}
-	const unsigned char* source_mac_addr = (unsigned char*)ifr.ifr_hwaddr.sa_data;
+	unsigned char* source_mac_addr = (unsigned char*)ifr.ifr_hwaddr.sa_data;
 	memcpy(header.ether_shost, source_mac_addr, sizeof(header.ether_shost));
 	memcpy(&req.arp_sha, source_mac_addr, sizeof(req.arp_sha));
 	close(fd);
@@ -164,7 +164,7 @@ void Send_ArpRequest(const char* if_name, const char* sender_ip_string, const ch
 
 	char pcap_errbuf[PCAP_ERRBUF_SIZE];
 	struct pcap_pkthdr h;
-	const u_char* packet;
+	u_char* packet;
 	pcap_errbuf[0] = '\0';
 
 	pcap_t* pcap = pcap_open_live(if_name, 96, 0, 0, pcap_errbuf);
@@ -186,12 +186,12 @@ void Send_ArpRequest(const char* if_name, const char* sender_ip_string, const ch
 	pcap_close(pcap);
 }
 
-int main(int argc, const char* argv[])
+int main(int argc, char* argv[])
 {
 
-	const char* if_name = argv[1];
-	const char* sender_ip_string = argv[2];
-	const char* target_ip_string = argv[3];
+	char* if_name = argv[1];
+	char* sender_ip_string = argv[2];
+	char* target_ip_string = argv[3];
 	char* my_ip_string;
 	char* sender_packet[0x3c];
 	while (true) {
