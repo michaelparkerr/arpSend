@@ -40,10 +40,10 @@ void ArpSpoof(const char* if_name, const char* sender_ip_string, const char* tar
 	if (ifr.ifr_hwaddr.sa_family != ARPHRD_ETHER) {
 		fprintf(stderr, "not an Ethernet interface");
 		close(fd);
-		return;
+		return; 
 	}
 
-	unsigned char* my_mac_addr = (unsigned char*)ifr.ifr_hwaddr.sa_data;
+	unsigned char* my_mac_addr = (unsigned char*)ifr.ifr_hwaddr.sa_data; 
 	struct ether_header header;
 
 	header.ether_type = htons(ETH_P_ARP);
@@ -61,7 +61,8 @@ void ArpSpoof(const char* if_name, const char* sender_ip_string, const char* tar
 	memcpy(&req.arp_spa, packet + 0x1c, 0x04);
 	memcpy(&req.arp_tha, packet + 0x16, sizeof(req.arp_tha));
 
-	memset(&req.arp_tpa, inet_addr(target_ip_string), 0x32);
+	sprintf(target_ip_string, "%d.%d.%d.%d", &req.arp_tpa[0], &req.arp_tpa[1], &req.arp_tpa[2], &req.arp_tpa[3]);
+	//memset(&req.arp_tpa, inet_addr(target_ip_string), 0x32);
 
 
 	unsigned char frame[sizeof(struct ether_header) + sizeof(struct ether_arp)];
@@ -75,7 +76,7 @@ void ArpSpoof(const char* if_name, const char* sender_ip_string, const char* tar
 		fprintf(stderr, "%s\n", pcap_errbuf);
 	}
 	if (!pcap) {
-		return;
+		return; 
 	}
 
 
