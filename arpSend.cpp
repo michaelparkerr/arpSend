@@ -11,7 +11,7 @@
 #include<stdint.h>
 
 
-void ArpSpoof(const char* if_name, const char* sender_ip_string, const char* target_ip_string, const u_char* packet) {
+void ArpSpoof(char* if_name, char* sender_ip_string, char* target_ip_string, u_char* packet) {
 
 	struct ifreq ifr;
 	size_t if_name_len = strlen(if_name);
