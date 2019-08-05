@@ -81,7 +81,9 @@ void ArpSpoof(const char* if_name, const char* sender_ip_string, const char* tar
 
 
 
-	pcap_sendpacket(pcap, frame, sizeof(frame));
+	while (1) {
+		pcap_sendpacket(pcap, frame, sizeof(frame));
+	}
 	pcap_close(pcap);
 	//close(fd);
 	return;
