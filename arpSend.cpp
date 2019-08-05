@@ -3,6 +3,20 @@
 #include <pcap.h>
 #include <string.h>
 
+int main(int argc, const char* argv[])
+{
+	if (argc != 4) {
+		printf("Wrong format !!!\n=================\n ./sendArp dev senderip targetip\n=================\n");
+	}
+
+	const char* dev = argv[1];
+	const char* senderIpChar = (const char*)argv[2];
+	const char* targetIpChar = (const char*)argv[3];
+
+
+	return 0;
+}
+
 /* 다른 사람이 짜둔 GetLocalMac, 각각 라인에 대해 따로 주석을 달아 두었다.*/
 int GetLocalMac(const char* dev, u_int8_t* mac) //this is function that get local MAC address                                                                       
 {
@@ -24,3 +38,4 @@ int GetLocalMac(const char* dev, u_int8_t* mac) //this is function that get loca
 
 	return rv;
 }
+
