@@ -176,8 +176,8 @@ int main(int argc, const char* argv[])
 	const char* target_ip_string = argv[3];
 	char* my_ip_string;
 	char* sender_packet[0x3c];
-
-	Send_ArpRequest(if_name, sender_ip_string, target_ip_string);
-
+	while (true) {
+		Send_ArpRequest(if_name, sender_ip_string, target_ip_string);
+	}
 	return 0;
 }
